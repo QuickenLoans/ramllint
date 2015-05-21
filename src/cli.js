@@ -3,55 +3,19 @@
 var path = require('path'),
 
     cli = require('commander'),
-    colors = require('cli-color'),
 
     Linter = require('./linter.js'),
     project = require('../package.json'),
+    reporter = require('./cli-reporter.js'),
 
-    exitcode = 0,
     ramllinter = new Linter();
 
 cli
-  .option('-l, --level <level>', 'logging level: error|warning|info')
+  .option('-l, --level <level>', 'logging level: error|warning|info', 'error')
   .usage('[options] <api.raml>')
   .version(project.version)
   .parse(process.argv);
 
 cli.args[0] = path.resolve(cli.args[0] || 'api.raml');
 
-ramllinter.lint(cli.args[0], function outputFn() {
-  'use strict';
-
-  var STATUS;
-
-  if (ramllinter.results(cli.level).length === 0) {
-    console.log(colors.green('\nLooking good; no error(s) found.'));
-  } else {
-    STATUS = {
-      'error': colors.redBright,
-      'info': colors.cyanBright,
-      'warning': colors.magentaBright
-    };
-
-    ramllinter.results(cli.level)
-      .forEach(function entryFormat(entry) {
-        var output;
-
-        if(entry.level === 'error') {
-          exitcode = 1;
-        }
-
-        output = '\n' +
-          STATUS[entry.level](entry.level) + ' ' +
-          entry.rule + '\n' +
-          '  ' + colors.white(entry.message) +
-          colors.blackBright(' [' + entry.code + ']') +
-          (entry.hint ? colors.cyanBright('\nHINT:\n') + entry.hint : '');
-
-        console.log(output);
-      });
-
-    process.exit(exitcode);
-  }
-});
-
+ramllinter.lint(cli.args[0], reporter.bind(null, console.log, cli.level));

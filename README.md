@@ -41,11 +41,10 @@ var Linter = require('ramllint'),
 
     ramllint = new Linter();
 
-ramllint('./path/to/api.raml', function (results) {
-   // NOTE: results will only contain 'error' and will exclude 'warning' and 'info'
-   // to get an array of all log entries use: `ramllint.results()`
+ramllint('./path/to/api.raml', function (log) {
+  var errors = log.read('error');
 
-  if (!results.length) {
+  if (!errors.length) {
     // no errors, all rules are satisfied
   } else {
     // errors
@@ -89,18 +88,19 @@ ramllint path/to/api.raml
 
 Below is a list of commands available via `npm run` for you convenience:
 
-  + `npm run cover` *for TravisCI only*
-  + `npm run doc`
-    1. Remove the `docs/` directory to start clean
-    2. Generate documentation pages ([JSDoc](https://github.com/jsdoc3/jsdoc)) in `docs/`
-    3. Create code coverage report ([Istanbul](https://github.com/gotwarlost/istanbul)) `docs/coverage/lcov-report/`
-    4. Create code statistics report ([Plato](https://github.com/es-analysis/plato)) `docs/coverage/`
-  + `npm run doc:pub` *for publishing `docs/` to gh-pages*
+  + `npm run cover` - generate coverage report (`docs/coverage/lcov-report/src/index.html`) using [Istanbul](https://github.com/gotwarlost/istanbul)
+  + `npm run doc` - generate documentation pages (`docs/index.html`) using [JSDoc](https://github.com/jsdoc3/jsdoc)
   + `npm run lint` - static code analysis and code style linting
     1. [JShint](https://github.com/jshint/jshint)
     2. [ESlint](https://github.com/eslint/eslint)
-  + `npm run quality` - runs `lint` and code coverage
-  + `npm test` - runs unit tests ([Mocha](https://github.com/mochajs/mocha))
+  + `npm run publish` publishes `docs/` to gh-pages
+    1. run: doc, cover, and stats
+    2. add `docs/` to source control
+    3. push `docs/` to upstream gh-pages branch
+    4. rollback commit of `docs/` to source control
+  + `npm run quality` - runs lint and code coverage
+  + `npm run stats` - generate statistice report (`docs/stats/index.html`) using [Plato](https://github.com/es-analysis/plato)
+  + `npm test` - runs ([Mocha](https://github.com/mochajs/mocha)) unit tests
   + `npm run watch` - watches `test/` and `src/` for changes and re-runs tests
 
 ## Documentation

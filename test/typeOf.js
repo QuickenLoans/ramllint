@@ -2,7 +2,7 @@ var assert = require('assert'),
     self = this,
     typeOf = require('../src/typeOf.js');
 
-describe('typeOf (replacement)', function () {
+describe('Util - typeOf (replacement)', function () {
   it('should be an object', function () {
     assert.equal('function', typeof typeOf);
   });
