@@ -39,11 +39,10 @@ var Linter = require('ramllint'),
 
     ramllint = new Linter();
 
-ramllint('./path/to/api.raml', function (results) {
-   // NOTE: results will only contain 'error' and will exclude 'warning' and 'info'
-   // to get an array of all log entries use: `ramllint.results()`
+ramllint('./path/to/api.raml', function (log) {
+  var errors = log.read('error');
 
-  if (!results.length) {
+  if (!errors.length) {
     // no errors, all rules are satisfied
   } else {
     // errors
