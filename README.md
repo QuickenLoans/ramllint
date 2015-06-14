@@ -71,16 +71,15 @@ ramllint path/to/api.raml
 
 Below is a list of commands available via `npm run` for you convenience:
 
-  + `npm run cover` *for TravisCI only*
+  + `npm run cover` for [TravisCI](https://travis-ci.org/QuickenLoans/ramllint)/[Coveralls](https://coveralls.io/r/QuickenLoans/ramllint) only
   + `npm run doc`
-    1. Remove the `docs/` directory to start clean
-    2. Generate documentation pages ([JSDoc](https://github.com/jsdoc3/jsdoc)) in `docs/`
-    3. Create code coverage report ([Istanbul](https://github.com/gotwarlost/istanbul)) `docs/coverage/lcov-report/`
-    4. Create code statistics report ([Plato](https://github.com/es-analysis/plato)) `docs/coverage/`
-  + `npm run doc:pub` *for publishing `docs/` to gh-pages*
+    1. Generate documentation pages ([JSDoc](https://github.com/jsdoc3/jsdoc)) in `docs/`
+    2. Create code coverage report ([Istanbul](https://github.com/gotwarlost/istanbul)) `docs/coverage/lcov-report/`
+    3. Create code statistics report ([Plato](https://github.com/es-analysis/plato)) `docs/coverage/`
   + `npm run lint` - static code analysis and code style linting
     1. [JShint](https://github.com/jshint/jshint)
     2. [ESlint](https://github.com/eslint/eslint)
+  + `npm run publish` for publishing `docs/` to gh-pages
   + `npm run quality` - runs `lint` and code coverage
   + `npm test` - runs unit tests ([Mocha](https://github.com/mochajs/mocha))
   + `npm run watch` - watches `test/` and `src/` for changes and re-runs tests
