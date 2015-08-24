@@ -1,11 +1,12 @@
 {
   "name": "ramllint",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "RAML Lint",
   "author": "Tyler Smith <TylerSmith@quickenloans.com",
   "contributors": [
     "Joshua T Kalis <KalisJoshua@gmail.com>",
-    "Jorden Lowe <JordenLowe@quickenloans.com>"
+    "Jorden Lowe <JordenLowe@quickenloans.com>",
+    "Mark Morga <mmorga@rackspace.com"
   ],
   "repository": {
     "type": "git",
