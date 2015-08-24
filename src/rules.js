@@ -113,6 +113,17 @@ function mapRules(options, rule) {
   return custom;
 }
 
+function mergeSectionWithOptions(options, allRules, section) {
+  allRules[section] = options[section].reduce(function merge(rules, newRule) {
+    rules[rules.reduce(function findRuleById(foundIdx, checkRule, idx) {
+        return (checkRule.id === newRule.id) ? idx : foundIdx;
+      }, rules.length)] = newRule;
+
+    return rules;
+  }, allRules[section]);
+  return allRules;
+}
+
 /**
   * @private
   * @description
@@ -170,6 +181,12 @@ function Rules(logger, options) {
 
       return full;
     }, {});
+
+  if (options) {
+    this.rules = Object.keys(options)
+      .filter(function isDefaultSection(section) { return section in defaults; })
+      .reduce(mergeSectionWithOptions.bind(null, options), this.rules);
+  }
 
   this.logger = logger;
 }

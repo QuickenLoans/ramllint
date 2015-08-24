@@ -142,12 +142,21 @@ function lintRoot(rules, context) {
   * Creates a new instance with the given options; passed in options are merged
   * with defaults.
   * @arg {Options} options - configuration options from project based prefs file.
-  * @example
-  * // using only default rule definitions
+  * @example <caption>Using only default rule definitions</caption>
   * var basicLinter = new Linter();
-  * @example
-  * // passing in customizations
+  * @example <caption>Disable (skip) the <code>api_version</code> rule</caption>
   * var myLinter = new Linter({api_version: false});
+  * @example <caption>Enable (default) the <code>api_version</code> rule</caption>
+  * var myLinter = new Linter({api_version: true});
+  * @example <caption>Change test regexp for the <code>url_lower</code> rule</caption>
+  * var myLinter = new Linter({url_lower: "^\\/([a-z]+(-[a-z]+)*|{[a-z]+([A-Z][a-z]+)*})$"});
+  * @example <caption>Add a new rule to the <code>resource</code> section</caption>
+  * var myLinter = new Linter({
+      resource: [{id:   'url_plural', prop: 'relativeUri',
+      test: '[s}]$',
+      text: 'RAML section ({section}) {property} violates: should be plural'
+      }]});
+  * @see {@link Rules#Rules} for more information
   */
 function Linter(options) {
   var log = new Log(),
