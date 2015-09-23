@@ -4,4 +4,4 @@ language: node_js
 node_js:
   - "1.7.1"
 script:
-  - npm run cover
+  - npm run vnd:coverage

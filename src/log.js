@@ -10,6 +10,7 @@ function filterEntries(level, entry) {
 
 // bind level methods for instances
 function instanceLevelMethods(addEntry, name) {
+  /* jshint validthis:true */
   this[name] = addEntry.bind(null, name);
 }
 
