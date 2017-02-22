@@ -190,6 +190,8 @@ Rules.prototype.run = function runRules(section, context) {
     } else {
       if (!passing(rule, context)) {
         logger.error(section, rule, format(section, rule), context.lintContext);
+      } else {
+        logger.success(section, rule, format(section, rule), context.lintContext);
       }
     }
   }
