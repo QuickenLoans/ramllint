@@ -64,6 +64,8 @@ function Log() {
     * myLogger.warning('resource', 'resource_desc', 'need a description', 'GET http://example.com/resource');
     * @example
     * myLogger.info('resource', 'resource_desc', 'need a description', 'GET http://example.com/resource');
+    * @example
+    * myLogger.success('resource', 'resource_desc', 'need a description', 'GET http://example.com/resource');
     */
   function addEntry(level, section, rule, message, locale) {
     if ([section, rule, message, locale].every(isDef)) {
@@ -107,6 +109,16 @@ function Log() {
     * @instance
     * @description
     * Instance method for logging `info` level entries; calls {@link Log~addEntry}
+    * with first argument satisfied, and passing along addition arguments.
+    * @see {@link Log~addEntry}
+    */
+
+  /**
+    * @function success
+    * @memberOf Log
+    * @instance
+    * @description
+    * Instance method for logging `success` level entries; calls {@link Log~addEntry}
     * with first argument satisfied, and passing along addition arguments.
     * @see {@link Log~addEntry}
     */
@@ -157,17 +169,17 @@ function Log() {
   * @returns {array} a list of all logging levels; in descending order of severity
   * @example
   * // this is the constructor (function); not an instance of it
-  * Log.getLevels(); // returns ['error', 'warning', 'info']
+  * Log.getLevels(); // returns ['error', 'warning', 'info', 'success']
   */
 Log.getLevels = function getLevels() {
 
-  return ['error', 'warning', 'info'];
+  return ['error', 'warning', 'info', 'success'];
 };
 
 /**
   * @see {@link Log.getLevels}
   * @example
-  * myLoggerInstance.getLevels(); // returns ['error', 'warning', 'info']
+  * myLoggerInstance.getLevels(); // returns ['error', 'warning', 'info', 'success']
   */
 Log.prototype.getLevels = Log.getLevels;
 
