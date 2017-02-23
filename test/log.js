@@ -124,7 +124,7 @@ describe('log', function () {
   });
 
   it('should provide a list of levels', function () {
-    assert.deepEqual(['error', 'warning', 'info'], log.getLevels());
+    assert.deepEqual(['error', 'warning', 'info', 'success'], log.getLevels());
   });
 
   it('should throw errors when arguments are omitted', function () {
