@@ -116,6 +116,26 @@ function mapRules(options, rule) {
 /**
   * @private
   * @description
+  * Merge full rules in options into rules list; used in Array.map().
+  * @arg {Options} options - default override options
+  * @arg {object} allRules - instance with rules by section as in defaults.json
+  * @arg {String} section - section to merge from options into allRules
+  * @returns {object} allRules updated with full rules merged from options in section.
+  */
+function mergeSectionWithOptions(options, allRules, section) {
+  allRules[section] = options[section].reduce(function merge(rules, newRule) {
+    rules[rules.reduce(function findRuleById(foundIdx, checkRule, idx) {
+        return (checkRule.id === newRule.id) ? idx : foundIdx;
+      }, rules.length)] = newRule;
+
+    return rules;
+  }, allRules[section]);
+  return allRules;
+}
+
+/**
+  * @private
+  * @description
   * Check the type of test and run.
   * @arg {mixed} test - value of the test prop in rules
   * @arg {mixed} value - value from the AST
@@ -170,6 +190,12 @@ function Rules(logger, options) {
 
       return full;
     }, {});
+
+  if (options) {
+    this.rules = Object.keys(options)
+      .filter(function isDefaultSection(section) { return section in defaults; })
+      .reduce(mergeSectionWithOptions.bind(null, options), this.rules);
+  }
 
   this.logger = logger;
 }
