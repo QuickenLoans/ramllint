@@ -2,6 +2,6 @@ install:
   - npm install
 language: node_js
 node_js:
-  - "1.7.1"
+  - "node"
 script:
   - npm run vnd:coverage
