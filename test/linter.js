@@ -6,7 +6,6 @@ var assert = require('assert'),
 
     failing,
     passing,
-    rules,
 
     ramllint = new Linter();
 
@@ -16,28 +15,29 @@ failing = [
   'resource',
   'method',
   'response'
-].map(function (sect) {
-  // turn the above list, of strings, into objects with document contents available
-  return {
+].reduce(function (acc, sect, indx) {
+  var list = defaults[sect].map(function (opt) {
+
+    return opt.id;
+  });
+
+  // turn the above list, of strings, into objects with:
+  //   - document contents available
+  //   - list of sections to test for
+  //   - expected number of errors (cumulative of previous sections)
+  //   - name of the section for labeling test results
+  acc.push({
     doc: fs.readFileSync('./test/samples/failing-$.raml'.replace('$', sect), 'utf8'),
+    expected: (indx < 1 ? 0 : acc[indx - 1].expected) + list.length,
+    list: list,
     name: sect
-  };
-}, {});
+  });
+
+  return acc;
+}, []);
 
 // this document will evolve as new rules are added but will always be valid.
 passing = fs.readFileSync('./test/samples/passing.raml', 'utf8');
-
-// make an object the is helpful in automated testing; below.
-rules = Object.keys(defaults)
-  .reduce(function (acc, sect) {
-    acc[sect] = defaults[sect]
-      .map(function (opt) {
-
-        return opt.id;
-      });
-
-    return acc;
-  }, {});
 
 function hasError(haystack, needle) {
   var result;
@@ -70,7 +70,7 @@ describe('RAML Linter - linter', function () {
     // async
     ramllint.lint(passing, function (log) {
       try {
-        assert.equal(log.read().length, 0);
+        assert.equal(log.read().length, 38);
         done();
       } catch (e) {
         //console.log(passing);
@@ -123,11 +123,12 @@ describe('RAML Linter - linter', function () {
 
   failing
     .forEach(function (section) {
-      var doc = section.doc;
+      var doc = section.doc,
+          expected = section.expected,
+          list = section.list,
+          name = section.name;
 
-      section = section.name;
-
-      it('should fail in ' + section, function (done) {
+      it('should fail in ' + name, function (done) {
         ramllint.lint(doc, function (log) {
           var results;
 
@@ -135,13 +136,13 @@ describe('RAML Linter - linter', function () {
             results = log.read();
 
             // 1. (positive) check that all defined rules for section are not passing
-            rules[section]
+            list
               .forEach(function (rule) {
                 assert(hasError(results, rule), 'The error log should include an error for: ' + rule);
               });
 
             // 2. (negative) check that no other errors are reported for section
-            assert.equal(results.length, rules[section].length, 'Length of error report does not match expected length.');
+            assert.equal(results.length, expected, 'Length of error report does not match expected length.');
 
             // 3. (negative) check that errors for previous sections are not reported
 

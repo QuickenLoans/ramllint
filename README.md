@@ -41,7 +41,7 @@ var Linter = require('ramllint'),
 
     ramllint = new Linter();
 
-ramllint('./path/to/api.raml', function (log) {
+ramllint.lint('./path/to/api.raml', function (log) {
   var errors = log.read('error');
 
   if (!errors.length) {

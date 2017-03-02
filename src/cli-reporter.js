@@ -10,6 +10,7 @@ function reporter(print, level, log) {
   function entryFormat(entry) {
     var output;
 
+    /* istanbul ignore else */
     if (!error && entry.level === 'error') {
       error = true;
     }
@@ -39,6 +40,7 @@ function reporter(print, level, log) {
     log.read(level)
       .forEach(entryFormat);
 
+    /* istanbul ignore else */
     if (error) {
       throw new Error('RAMLLint reported errors');
     }
