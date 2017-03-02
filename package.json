@@ -1,11 +1,12 @@
 {
   "name": "ramllint",
-  "version": "1.3.1",
+  "version": "2.0.0",
   "description": "RAML Lint",
-  "author": "Tyler Smith <TylerSmith@quickenloans.com",
+  "author": "Joshua T Kalis <JoshKalis@quickenloans.com",
   "contributors": [
     "Joshua T Kalis <KalisJoshua@gmail.com>",
-    "Jorden Lowe <JordenLowe@quickenloans.com>"
+    "Jorden Lowe <JordenLowe@quickenloans.com>",
+    "Tyler Smith <TylerSmith@quickenloans.com>"
   ],
   "repository": {
     "type": "git",
@@ -15,7 +16,7 @@
     "url": "http://github.com/QuickenLoans/ramllint/issues"
   },
   "engines": {
-    "node": ">=0.12.3"
+    "node": ">=6.10.0"
   },
   "bin": {
     "ramllint": "./src/cli.js"
@@ -38,23 +39,25 @@
     "plato": "^1.4.0"
   },
   "scripts": {
-    "cover": "npm run cover:codacy && npm run cover:coveralls",
-    "precover": "istanbul cover _mocha --report lcovonly -- -R spec",
-    "postcover": "rm -rf ./coverage",
-    "cover:codacy": "cat ./coverage/lcov.info | ./node_modules/codacy-coverage/bin/codacy-coverage.js",
-    "cover:coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "doc": "jsdoc -c ./conf.json src/**.js",
-    "predoc": "rm -rf docs",
-    "postdoc": "npm run doc:coverage && npm run doc:stats",
-    "doc:coverage": "istanbul cover --dir docs/coverage _mocha",
-    "doc:pub": "git branch -D gh-pages && git push upstream :gh-pages && git subtree push --prefix=docs upstream gh-pages && git fetch upstream gh-pages:gh-pages",
-    "predoc:pub": "npm run doc",
-    "doc:stats": ". generateStats.sh",
-    "predocs:stats": "rm -rf docs/stats",
+    "cover": "istanbul cover --dir docs/coverage _mocha",
     "lint": "jshint src/**.js && eslint src/**.js",
-    "quality": "npm run lint && npm run precover && npm run postcover",
+    "docs:code": "jsdoc -c ./conf.json src/**.js",
+    "predocs:code": "rm -rf ./docs",
+    "docs:content": "npm run docs:code && npm run cover && npm run stats",
+    "docs:publish": "npm run docs:update",
+    "postdocs:publish": "git reset --hard HEAD^",
+    "docs:update": "git add -f docs/** && git commit -m \"gh-pages update\" docs",
+    "predocs:update": "npm run docs:content",
+    "postdocs:update": "git push upstream `git subtree split --prefix docs`:gh-pages --force",
+    "docs:stats": ". ./generateStats.sh",
+    "predocs:stats": "rm -rf docs/stats",
+    "quality": "npm run lint && npm test && npm run cover",
     "test": "mocha",
-    "pretest": "npm run lint",
+    "vnd:coverage": "npm run vnd:codacy && npm run vnd:coveralls",
+    "prevnd:coverage": "istanbul cover _mocha --report lcovonly -- -R spec",
+    "postvnd:coverage": "rm -rf ./coverage",
+    "vnd:codacy": "cat ./coverage/lcov.info | ./node_modules/codacy-coverage/bin/codacy-coverage.js",
+    "vnd:coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "watch": "npm test -- -R min -w --watch-extensions json"
   }
 }

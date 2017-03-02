@@ -3,7 +3,7 @@ var assert = require('assert'),
 
     log = new Log();
 
-describe('log', function () {
+describe('RAML Linter - log', function () {
   it('should be an object', function () {
     assert.equal('object', typeof log);
   });

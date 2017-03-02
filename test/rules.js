@@ -7,7 +7,7 @@ var assert = require('assert'),
 
 config = new Rules(log);
 
-describe('Rules', function () {
+describe('RAML Linter - Rules', function () {
   it('should be an function', function () {
     assert.equal('function', typeof Rules);
   });

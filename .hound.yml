@@ -1,0 +1,5 @@
+eslint:
+  config_file: .eslintrc
+  enabled: true
+jshint:
+  enabled: false
